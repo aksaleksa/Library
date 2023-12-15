@@ -2,6 +2,7 @@ const display = document.querySelector("#display");
 const addButton =  document.querySelector("#add");
 const popup = document.querySelector("#popup");
 const submitButton = document.querySelector("#submit");
+const form = document.querySelector("form");
 
 const myLibrary = [{
     title: "title1",
@@ -32,8 +33,32 @@ function addBookToLibrary(title, author, pages, read){
 function displayBooks() {
     let book = myLibrary[myLibrary.length - 1];
     let card = document.createElement("div");
-    card.textContent = `Title: ${book.title} \n Author: ${book.author} \n
-    Pages: ${book.pages} \n Read: ${book.read}`;
+    let deleteButton = document.createElement("button");
+    let toggleStatus = document.createElement("div");
+
+    let title = document.createElement("div");
+    let author = document.createElement("div");
+    let pages = document.createElement("div");
+    let read = book.read;
+    title.textContent = `Title: ${book.title}`;
+    author.textContent = `Author: ${book.author}`;
+    pages.textContent = `Pages: ${book.pages}`;
+
+    deleteButton.textContent = "Delete";
+    // deleteButton.setAttribute("class", "delete");
+    deleteButton.addEventListener("click", () => deleteBook(card));
+    toggleStatus.textContent = `${read}`;
+    toggleStatus.addEventListener("click", () => {
+        (read === "Read")? read = "Not yet read": read = "Read";
+        toggleStatus.textContent = read;
+    });
+
+    // card.setAttribute("class", "card");
+    // card.textContent = `Title: ${book.title} Author: ${book.author}
+    // Pages: ${book.pages}`;
+    card.appendChild(title), card.appendChild(author), card.appendChild(pages);
+    card.appendChild(toggleStatus);
+    card.appendChild(deleteButton);
     display.appendChild(card);
 }
 
@@ -46,9 +71,21 @@ submitButton.addEventListener("click", (e) => {
     let author = document.querySelector("#author").value;
     let pages = document.querySelector("#pages").value;
     let read;
-    (document.querySelector("#read").checked === true)? read = "Yes": read = "No";
+
+    (document.querySelector("#read").checked === true)? read = "Read": read = "Not yet read";
     addBookToLibrary(title, author, pages, read);
     displayBooks();
+
+    form.reset();
     popup.close();
     e.preventDefault();
 })
+
+function deleteBook(card) {
+    myLibrary.splice(myLibrary.indexOf(card), 1);
+    display.removeChild(card);
+}
+
+// function toggleStatus(button) {
+    
+// }
