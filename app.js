@@ -3,20 +3,9 @@ const addButton =  document.querySelector("#add");
 const popup = document.querySelector("#popup");
 const submitButton = document.querySelector("#submit");
 const form = document.querySelector("form");
+const closeButton = document.querySelector("#close");
 
-const myLibrary = [{
-    title: "title1",
-    author: "author1",
-    pages: 100,
-    read: "No"
-},
-{
-    title: "title2",
-    author: "author2",
-    pages: 200,
-    read: "No"
-}
-];
+const myLibrary = [];
 
 function Book(title, author, pages, read) {
     this.title = title;
@@ -33,38 +22,41 @@ function addBookToLibrary(title, author, pages, read){
 function displayBooks() {
     let book = myLibrary[myLibrary.length - 1];
     let card = document.createElement("div");
-    let deleteButton = document.createElement("button");
-    let toggleStatus = document.createElement("div");
+    let deleteButton = document.createElement("div");
+    let toggleButton = document.createElement("div");
 
     let title = document.createElement("div");
     let author = document.createElement("div");
     let pages = document.createElement("div");
-    let read = book.read;
-    title.textContent = `Title: ${book.title}`;
-    author.textContent = `Author: ${book.author}`;
-    pages.textContent = `Pages: ${book.pages}`;
+    title.textContent = `${book.title}`;
+    author.textContent = `${book.author}`;
+    pages.textContent = `${book.pages} pages`;
 
     deleteButton.textContent = "Delete";
-    // deleteButton.setAttribute("class", "delete");
+    deleteButton.setAttribute("class", "delete");
     deleteButton.addEventListener("click", () => deleteBook(card));
-    toggleStatus.textContent = `${read}`;
-    toggleStatus.addEventListener("click", () => {
-        (read === "Read")? read = "Not yet read": read = "Read";
-        toggleStatus.textContent = read;
-    });
+    toggleButton.textContent = `${book.read}`;
+    if(book.read === "Read") {
+        toggleButton.setAttribute("class", "read");
+    }
+    else {
+        toggleButton.setAttribute("class", "unread");
+    }
+    toggleButton.addEventListener("click", () => toggle(book, toggleButton));
 
-    // card.setAttribute("class", "card");
-    // card.textContent = `Title: ${book.title} Author: ${book.author}
-    // Pages: ${book.pages}`;
     card.appendChild(title), card.appendChild(author), card.appendChild(pages);
-    card.appendChild(toggleStatus);
+    card.appendChild(toggleButton);
     card.appendChild(deleteButton);
     display.appendChild(card);
 }
 
 addButton.addEventListener("click", () => {
-    popup.showModal();
-})
+    popup.showModal()
+    closeButton.addEventListener("click", () => {
+        form.reset();
+        popup.close();
+    });
+});
 
 submitButton.addEventListener("click", (e) => {
     let title = document.querySelector("#title").value;
@@ -81,11 +73,22 @@ submitButton.addEventListener("click", (e) => {
     e.preventDefault();
 })
 
+
 function deleteBook(card) {
     myLibrary.splice(myLibrary.indexOf(card), 1);
     display.removeChild(card);
 }
 
-// function toggleStatus(button) {
-    
-// }
+function toggle(book, button) {
+    if (book.read === "Read") {
+        book.read = "Not yet read";
+        button.removeAttribute("class", "read");
+        button.setAttribute("class", "unread");
+    }
+    else {
+        book.read = "Read";
+        button.removeAttribute("class", "unread");
+        button.setAttribute("class", "read");
+    }
+    button.textContent = book.read;
+}
