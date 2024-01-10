@@ -4,6 +4,9 @@ const popup = document.querySelector("#popup");
 const submitButton = document.querySelector("#submit");
 const form = document.querySelector("form");
 const closeButton = document.querySelector("#close");
+const title = document.querySelector("#title");
+const author = document.querySelector("#author");
+const pages = document.querySelector("#pages");
 
 const myLibrary = [];
 
@@ -60,21 +63,52 @@ addButton.addEventListener("click", () => {
     });
 });
 
-submitButton.addEventListener("click", (e) => {
-    let title = document.querySelector("#title").value;
-    let author = document.querySelector("#author").value;
-    let pages = document.querySelector("#pages").value;
-    let read;
-
-    (document.querySelector("#read").checked === true)? read = "Read": read = "Not yet read";
-    addBookToLibrary(title, author, pages, read);
-    displayBooks();
-
-    form.reset();
-    popup.close();
-    e.preventDefault();
+title.addEventListener("input", () => {
+    if (!title.value) {
+        title.setCustomValidity("Please add a book title");
+    }
+    else {
+        title.setCustomValidity("");
+    }
 })
 
+author.addEventListener("input", () => {
+    if (!author.value) {
+        author.setCustomValidity("Please include the author's name");
+    }
+    else {
+        author.setCustomValidity("");
+    }
+})
+
+pages.addEventListener("input", () => {
+    if (!pages.value) {
+        pages.setCustomValidity("Please add the book's length");
+    }
+    else if (pages.value < 0) {
+        pages.setCustomValidity("The number of pages must positive");
+    }
+    else {
+        pages.setCustomValidity("");
+    }
+})
+
+submitButton.addEventListener("click", (e) => {
+    if (title.value && author.value && pages.value) {
+        let title = document.querySelector("#title").value;
+        let author = document.querySelector("#author").value;
+        let pages = document.querySelector("#pages").value;
+        let read;
+    
+        (document.querySelector("#read").checked === true)? read = "Read": read = "Not yet read";
+        addBookToLibrary(title, author, pages, read);
+        displayBooks();
+    
+        form.reset();
+        popup.close();
+        e.preventDefault();
+    }
+})
 
 function deleteBook(card) {
     myLibrary.splice(myLibrary.indexOf(card), 1);
