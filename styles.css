@@ -4,35 +4,31 @@
 
 body {
     padding: 20px 10px;
+
 }
 
 h1 {
     text-align: center;
     font-weight: bold;
     font-size: 50px;
-    margin:0 0 30px 0;
+    margin-bottom: 30px;
 }
 
 #add {
     display: block;
     padding: 10px 30px;
     font-size: 20px;
-    margin: 0 auto 20px auto;
-    background-color: rgb(241, 241, 241);
-    border: 1px solid black;
-    border-radius: 5px;
-}
-
-#add:active {
-    background-color:rgb(224, 224, 224);
+    margin: 0 auto 50px auto;
 }
 
 #display {
-    margin: 0 auto 20px auto;
+    margin: 0 auto 50px auto;
+    padding: 0 50px;
     display: grid;
-    grid-template: repeat(2, minmax(300px, 0.333fr)) / repeat(auto-fit, minmax(300px, 0.333fr));
+    grid-template: repeat(2, minmax(300px, 0.333fr)) / repeat(auto-fit, minmax(250px, 0.333fr));
     grid-auto-rows: minmax(300px, 0.333fr);
-    gap: 50px;
+    gap: 70px;
+    max-width: 1500px;
 }
 
 #display > div {
@@ -43,15 +39,24 @@ h1 {
     gap: 10%;
     font-size: 20px;
     font-weight: bold;
-    background-color: rgb(184, 241, 241);
+    background-color: rgb(241 255 255);
     padding: 10px;
-    border: 2px solid rgb(17, 13, 51);
-    border-radius: 20px;
+    border: 1px solid rgb(17, 13, 51);
+}
+
+#card-buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: space-between;
+}
+
+dialog {
+    border: 1px solid black;
 }
 
 form {
-    width: 20vw;
-    height: 50vh;
+    width: 300px;
+    height: 400px;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -59,48 +64,39 @@ form {
     align-items: center;
 }
 
-#close {
-    display: block;
-    align-self: flex-end;
+#form-buttons {
+    display: flex;
+    gap: 20px;
 }
 
-#close:hover {
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.read, .unread, .delete {
-    width: 80%;
-    padding: 10px;
-    border-radius: 5px;
-    font-size: 15px;
-    font-weight: normal;
-    text-align: center;
-}
-
-.read {
-    background-color: rgb(37, 255, 37);
-}
-
-.unread {
-    background-color: white;
+#pages {
+    width: 30%;
 }
 
 .delete {
     background-color: rgb(255, 165, 165);
 }
 
-.read:hover {
-    background-color:rgb(35, 185, 35);
-    cursor: pointer;
-}
-
-.unread:hover {
-    background-color: rgb(241, 241, 241);
-    cursor: pointer;
-}
-
 .delete:hover {
     background-color: rgb(255, 136, 136);
     cursor: pointer;
+}
+
+@media (max-width: 700px) {
+    #display {
+        padding: 0 20px;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 590px) {
+    h1 {
+        font-size: 40px;
+    }
+
+    #display {
+        grid-template: repeat(auto-fit, minmax(300px, 0.333fr)) / minmax(250px, 1fr);
+        padding: 0 80px;
+        gap: 50px;
+    }
 }
